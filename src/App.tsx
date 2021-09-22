@@ -7,9 +7,10 @@ import { Checking } from './checking'
     render (){
       return (
         <div className="App">
-          <Header brand="The Pufferator"/>
+          <Header brand="The TEST Pufferator"/>
           <Checking />
-          Putting it together: The TEST Pufferator!
+          <hr/>
+          Putting it together!
         </div>
       );
     }
