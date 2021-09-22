@@ -5,7 +5,13 @@ import { TransactionHistory } from './TransactionHistory'
 
 type CheckingProps = {}
 type CheckingState = {
-    balance: number
+    balance: number,
+    transactions: Transaction[]
+}
+
+export type Transaction = {
+    amount: number,
+    type: "Deposit" | "Withdrawal"
 }
 
 // React.Component<Props, State>
@@ -13,17 +19,26 @@ export class Checking extends React.Component <CheckingProps, CheckingState> {
     constructor(props: CheckingProps){
         super(props)
         this.state = {
-            balance: 0
+            balance: 0,
+            transactions: []
         }
         this.updateBalance = this.updateBalance.bind(this)
     }
 
     updateBalance(amount: number) {
-        this.setState({balance: this.state.balance + amount})
+        let transaction: Transaction = {
+            amount: amount,
+            type: amount > 0 ? "Deposit" : "Withdrawal"
+        }
+
+        this.setState({
+            balance: this.state.balance + amount,
+            transactions: [...this.state.transactions, transaction]
+        })
     }
 
     render() {
-        const { balance } = this.state
+        const { balance, transactions } = this.state
         return (
             <>
              <section>
@@ -31,7 +46,7 @@ export class Checking extends React.Component <CheckingProps, CheckingState> {
                 <TransactionForm handleSubmit={this.updateBalance}/>
             </section>
              <section>
-             <TransactionHistory />
+             <TransactionHistory transactions={transactions}/>
              </section>
             </> 
         )
